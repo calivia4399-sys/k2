@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BlackofJack Poker Club</title>
+  <meta name="description" content="An elite, beginner-friendly international poker community — 24/7 tables. Join us." />
+
+  <meta property="og:title" content="BlackofJack Poker Club" />
+  <meta property="og:description" content="24/7 tables · beginner-friendly · international community. Join us." />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- ============================================================
+       Meta Pixel —— 002 Pixel ID: 1750669099695127
+       PageView 客户端上报；Lead 客户端 + 服务端 CAPI 双发（同 event_id 去重）
+       ============================================================ -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1750669099695127');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1750669099695127&ev=PageView&noscript=1" alt="" /></noscript>
+  <!-- End Meta Pixel -->
+
+  <style>
+    :root {
+      --gold:        #e9c46a;
+      --gold-bright: #f6d98a;
+      --gold-deep:   #b8893b;
+      --black:       #0b0c0e;
+      --black-soft:  #16181c;
+      --red:         #c7ccd4;   /* 复用为银色（占原红色位）*/
+      --red-bright:  #e2e6ec;   /* 复用为亮银 */
+      --ink:         #eceff4;
+      --muted:       #a3aab5;
+      --tg:          #2aabee;
+      --tg-deep:     #1d8fc9;
+      --glass:       rgba(255, 255, 255, 0.05);
+      --glass-brd:   rgba(200, 206, 214, 0.24);
+      --silver:      #c7ccd4;
+      --silver-bright:#eef1f6;
+      --silver-deep: #7f8792;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { height: 100%; }
+    html, body { overflow-x: hidden; }
+
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--ink);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 20px;
+      position: relative;
+      overflow-x: hidden;
+      background:
+        radial-gradient(120% 90% at 50% -12%, #2b2e35 0%, #15171b 46%, #0a0b0d 100%),
+        #0a0b0d;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(55% 40% at 50% 30%, rgba(220, 226, 236, 0.09), transparent 70%),
+        radial-gradient(55% 42% at 50% 116%, rgba(233, 196, 106, 0.10), transparent 70%),
+        radial-gradient(120% 120% at 50% 120%, rgba(0,0,0,0.6), transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ---- floating suit symbols ---- */
+    .suits { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+    .suits span {
+      position: absolute; font-size: 64px;
+      color: rgba(233, 196, 106, 0.06);
+      animation: drift 18s linear infinite; user-select: none;
+    }
+    .suits span:nth-child(1) { left: 6%;  top: 12%; animation-duration: 22s; }
+    .suits span:nth-child(2) { left: 82%; top: 18%; font-size: 90px; animation-duration: 26s; }
+    .suits span:nth-child(3) { left: 14%; top: 72%; font-size: 110px; animation-duration: 30s; }
+    .suits span:nth-child(4) { left: 76%; top: 70%; animation-duration: 20s; }
+    .suits span:nth-child(5) { left: 46%; top: 8%;  font-size: 48px; animation-duration: 24s; }
+    .suits span:nth-child(2), .suits span:nth-child(4) { color: rgba(199, 204, 212, 0.12); }
+
+    @keyframes drift {
+      0%   { transform: translateY(0) rotate(0deg);   opacity: .5; }
+      50%  { transform: translateY(-26px) rotate(8deg); opacity: 1; }
+      100% { transform: translateY(0) rotate(0deg);   opacity: .5; }
+    }
+
+    /* ---- language switch ---- */
+    .lang-switch {
+      position: fixed; top: 14px; right: 14px; z-index: 5;
+      display: flex; gap: 3px;
+      background: rgba(0,0,0,0.4); border: 1px solid var(--glass-brd);
+      border-radius: 999px; padding: 3px; backdrop-filter: blur(8px);
+    }
+    .lang-btn {
+      border: none; background: transparent; color: var(--muted);
+      font-family: inherit; font-size: 12px; font-weight: 700;
+      padding: 5px 12px; border-radius: 999px; cursor: pointer; transition: all .2s;
+    }
+    .lang-btn.active { background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep)); color: #1b1206; }
+
+    /* ---- card ---- */
+    .card {
+      position: relative; z-index: 1; width: 100%; max-width: 460px; min-width: 0;
+      background: linear-gradient(180deg, rgba(28, 28, 35, 0.80), rgba(9, 9, 12, 0.92));
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--glass-brd); border-radius: 24px;
+      padding: 44px 34px 34px; text-align: center;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+    .card::before {
+      content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 64%; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: .8;
+    }
+
+    .emblem {
+      width: 78px; height: 78px; margin: 0 auto 18px; border-radius: 50%;
+      display: grid; place-items: center; font-size: 34px; color: #23262b;
+      background: radial-gradient(circle at 35% 28%, #ffffff, var(--silver) 45%, var(--silver-deep) 100%);
+      box-shadow: 0 8px 22px rgba(199, 204, 212, 0.35), inset 0 -3px 8px rgba(70, 78, 90, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.7);
+    }
+
+    .eyebrow { font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 8px; }
+
+    h1 {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(28px, 8.5vw, 38px); font-weight: 900; letter-spacing: -0.01em; line-height: 1.05;
+      background: linear-gradient(180deg, #ffffff 0%, var(--silver-bright) 42%, var(--gold) 100%);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    .tagline { margin-top: 10px; font-size: 14px; letter-spacing: 0.05em; color: var(--muted); font-style: italic; font-family: "Playfair Display", Georgia, serif; }
+
+    /* ---- stats ---- */
+    .stats {
+      display: flex; justify-content: center; gap: 0; width: 100%; margin: 24px auto 4px; max-width: 360px;
+      border: 1px solid rgba(233, 196, 106, 0.15); border-radius: 14px; overflow: hidden; background: var(--glass);
+    }
+    .stats div { flex: 1 1 0; min-width: 0; padding: 12px 4px; position: relative; }
+    .stats div + div::before { content: ""; position: absolute; left: 0; top: 18%; height: 64%; width: 1px; background: rgba(233, 196, 106, 0.15); }
+    .stats .num { font-family: "Playfair Display", serif; font-size: 20px; font-weight: 700; color: var(--silver-bright); }
+    .stats .lbl { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+    .live-dot {
+      display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #3ddc84;
+      box-shadow: 0 0 0 0 rgba(61, 220, 132, 0.7); animation: pulse 1.8s infinite; vertical-align: middle; margin-right: 5px;
+    }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(61, 220, 132, 0.6); }
+      70%  { box-shadow: 0 0 0 7px rgba(61, 220, 132, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(61, 220, 132, 0); }
+    }
+
+    /* ---- features ---- */
+    .features { list-style: none; text-align: left; margin: 26px auto 0; max-width: 330px; display: grid; gap: 11px; }
+    .features li {
+      display: flex; align-items: center; gap: 13px; min-width: 0; font-size: 14.5px; color: var(--ink);
+      padding: 9px 12px; border-radius: 11px; background: var(--glass); border: 1px solid rgba(255,255,255,0.04);
+      transition: border-color .2s ease, transform .2s ease;
+    }
+    .features li:hover { border-color: var(--glass-brd); transform: translateX(3px); }
+    .features .suit {
+      flex: 0 0 auto; width: 26px; height: 26px; border-radius: 7px; display: inline-flex; align-items: center; justify-content: center;
+      font-size: 14px; color: var(--gold-bright); background: rgba(233, 196, 106, 0.12);
+    }
+    .features li:nth-child(2) .suit, .features li:nth-child(4) .suit { color: var(--red-bright); background: rgba(209, 43, 58, 0.14); }
+
+    /* ---- CTA ---- */
+    .cta { margin-top: 30px; display: grid; gap: 13px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%;
+      padding: 16px 22px; border-radius: 14px; font-size: 16px; font-weight: 700; letter-spacing: 0.01em; text-decoration: none;
+      transition: transform .08s ease, box-shadow .25s ease, filter .2s ease;
+    }
+    .btn svg { width: 20px; height: 20px; flex: 0 0 auto; }
+    .btn:active { transform: scale(0.985); }
+    .btn-primary { color: #fff; background: linear-gradient(135deg, var(--tg), var(--tg-deep)); box-shadow: 0 10px 26px rgba(42, 171, 238, 0.4); }
+    .btn-primary:hover { filter: brightness(1.06); box-shadow: 0 14px 32px rgba(42, 171, 238, 0.55); }
+    .btn-secondary { color: var(--gold-bright); background: rgba(233, 196, 106, 0.08); border: 1px solid var(--glass-brd); }
+    .btn-secondary:hover { background: rgba(233, 196, 106, 0.16); box-shadow: 0 8px 20px rgba(233, 196, 106, 0.18); }
+    .btn-whatsapp { color: #fff; background: linear-gradient(135deg, #25d366, #1da851); box-shadow: 0 10px 26px rgba(37, 211, 102, 0.38); }
+    .btn-whatsapp:hover { filter: brightness(1.06); box-shadow: 0 14px 32px rgba(37, 211, 102, 0.5); }
+
+    /* ---- support link ---- */
+    .support-link {
+      display: inline-block; margin-top: 16px; font-size: 12.5px; color: var(--gold);
+      text-decoration: none; border-bottom: 1px solid rgba(233,196,106,0.3); padding-bottom: 1px;
+    }
+    .support-link:hover { color: var(--gold-bright); }
+
+    .footnote { margin-top: 18px; font-size: 11.5px; color: var(--muted); letter-spacing: 0.03em; }
+    .footnote .chip { display: inline-block; border: 1px solid rgba(233,196,106,0.3); border-radius: 999px; padding: 2px 9px; color: var(--gold); font-weight: 600; margin-right: 6px; }
+    .privacy-link { display: inline-block; margin-top: 12px; font-size: 11.5px; color: var(--muted); text-decoration: underline; text-underline-offset: 2px; }
+    .privacy-link:hover { color: var(--gold); }
+
+    /* ---- lead form ---- */
+    .lead-form { margin-top: 28px; display: grid; gap: 13px; text-align: left; }
+    .lead-form .field { display: grid; gap: 5px; }
+    .lead-form label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+    .lead-form input {
+      width: 100%; padding: 13px 14px; border-radius: 11px; background: rgba(0,0,0,0.25); color: var(--ink);
+      border: 1px solid var(--glass-brd); font-size: 15px; font-family: inherit; transition: border-color .2s ease, box-shadow .2s ease;
+    }
+    .lead-form input::placeholder { color: rgba(185,180,168,0.55); }
+    .lead-form input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(233,196,106,0.15); }
+    .form-intro { font-size: 12.5px; color: var(--muted); text-align: center; margin-bottom: 2px; }
+    .form-intro span { color: var(--gold); font-weight: 600; }
+    .form-done { display: none; margin-top: 20px; text-align: center; color: var(--gold-bright); font-size: 15px; font-weight: 600; }
+    .form-error { color: #ff9b8a; font-size: 12.5px; min-height: 1em; }
+    button.btn { border: none; cursor: pointer; font-family: inherit; }
+    button.btn:disabled { filter: grayscale(.4) brightness(.8); cursor: default; }
+
+    @media (max-width: 400px) {
+      body { padding: 20px 14px; }
+      .card { padding: 34px 20px 26px; }
+      .stats .num { font-size: 17px; }
+      .stats .lbl { font-size: 9px; letter-spacing: 0.06em; }
+    }
+  </style>
+</head>
+<body>
+  <!-- language switch -->
+  <div class="lang-switch">
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="zh">中文</button>
+  </div>
+
+  <!-- floating suit motifs -->
+  <div class="suits" aria-hidden="true">
+    <span>&#9824;</span><span>&#9829;</span><span>&#9827;</span><span>&#9830;</span><span>&#9824;</span>
+  </div>
+
+  <main class="card">
+    <div class="emblem">&#9824;</div>
+    <p class="eyebrow" data-i18n="eyebrow">Members-Only Community</p>
+    <h1 data-i18n="brand">BlackofJack Poker Club</h1>
+    <p class="tagline" data-i18n="tagline">Where real players meet.</p>
+
+    <div class="stats">
+      <div><div class="num"><span class="live-dot"></span>1.2k</div><div class="lbl" data-i18n="statPlayers">Players Online</div></div>
+      <div><div class="num">50+</div><div class="lbl" data-i18n="statTables">Active Tables</div></div>
+      <div><div class="num">24/7</div><div class="lbl" data-i18n="statOpen">Open</div></div>
+    </div>
+
+    <ul class="features">
+      <li><span class="suit">&#9824;</span> <span data-i18n="feat1">24/7 active tables, never wait to play</span></li>
+      <li><span class="suit">&#9829;</span> <span data-i18n="feat2">Beginner-friendly — new players welcome</span></li>
+      <li><span class="suit">&#9827;</span> <span data-i18n="feat3">An international, English-friendly community</span></li>
+      <li><span class="suit">&#9830;</span> <span data-i18n="feat4">A community of skilled, serious players</span></li>
+    </ul>
+
+    <!-- 主跳转按钮（链接按语言切换）/ Primary jump buttons (per-language links) -->
+    <div class="cta">
+      <a class="btn btn-primary" id="tgLink" href="#" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71l-4.07-3.04-1.96 1.9c-.21.21-.39.39-.78.39z"/></svg>
+        <span data-i18n="joinTg">Join on Telegram →</span>
+      </a>
+      <a class="btn btn-whatsapp" id="waLink" href="#" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm0 1.67c2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 012.42 5.82c0 4.54-3.7 8.24-8.25 8.24-1.52 0-3.01-.41-4.3-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 01-1.26-4.35c0-4.54 3.7-8.24 8.24-8.24zm4.71 9.94c-.26-.13-1.52-.75-1.76-.84-.24-.09-.41-.13-.59.13-.17.26-.67.84-.82 1.01-.15.17-.3.2-.56.07-.26-.13-1.09-.4-2.07-1.28-.77-.68-1.28-1.53-1.43-1.79-.15-.26-.02-.4.11-.53.12-.12.26-.3.39-.46.13-.15.17-.26.26-.43.09-.17.04-.32-.02-.45-.07-.13-.59-1.42-.81-1.94-.21-.51-.43-.44-.59-.45-.15-.01-.33-.01-.5-.01s-.45.06-.69.32c-.24.26-.9.88-.9 2.14 0 1.26.92 2.48 1.05 2.65.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.52-.62 1.74-1.22.21-.6.21-1.11.15-1.22-.06-.11-.24-.17-.5-.3z"/></svg>
+        <span data-i18n="joinWa">Join on WhatsApp →</span>
+      </a>
+    </div>
+
+    <!-- 选填留资 / optional lead capture -->
+    <form class="lead-form" id="leadForm" novalidate>
+      <p class="form-intro" data-i18n-html="formIntro">Want us to reach out first? Leave your details — <span>optional</span></p>
+      <div class="field">
+        <label for="nickname" data-i18n="lblNickname">Nickname</label>
+        <input id="nickname" name="nickname" type="text" data-i18n-ph="phNickname" placeholder="Your name" autocomplete="nickname" maxlength="60" />
+      </div>
+      <div class="field">
+        <label for="contact_tg" data-i18n="lblContact">Telegram / WhatsApp</label>
+        <input id="contact_tg" name="contact_tg" type="text" data-i18n-ph="phContact" placeholder="@username or +1 234 567 890" autocomplete="off" maxlength="120" />
+      </div>
+      <div class="field">
+        <label for="contact_email" data-i18n="lblEmail">Email / Phone</label>
+        <input id="contact_email" name="contact_email" type="text" data-i18n-ph="phEmail" placeholder="you@email.com or phone number" autocomplete="email" maxlength="120" />
+      </div>
+      <p class="form-error" id="formError" role="alert"></p>
+      <button type="submit" class="btn btn-secondary" id="submitBtn" data-i18n="submit">Send my details →</button>
+    </form>
+
+    <p class="form-done" id="formDone" data-i18n="formDone">✓ Thanks! We'll be in touch.</p>
+
+    <a class="support-link" id="supportLink" href="#" target="_blank" rel="noopener noreferrer" data-i18n="support">Need help? Contact support</a>
+
+    <p class="footnote" data-i18n-html="footnote"><span class="chip">18+</span> Play responsibly. For entertainment purposes only.</p>
+    <a class="privacy-link" href="privacy.html" target="_blank" rel="noopener noreferrer" data-i18n="privacy">Privacy Policy</a>
+  </main>
+
+  <!-- ============================================================
+       配置区 —— 4 个群 + 客服链接（已填好）
+       如需改群链接，直接改下面 CONFIG 里的 en / zh 即可
+       ============================================================ -->
+  <script>
+    var CONFIG = {
+      support: "https://t.me/blackofjackclub",
+      langs: {
+        en: { telegram: "https://t.me/blackofjacks", whatsapp: "https://chat.whatsapp.com/HONJje3luGPE45rRYGSMIc" },
+        zh: { telegram: "https://t.me/+IpLH7OocOv02MzI1", whatsapp: "https://chat.whatsapp.com/G4x8mk8bJbCFNLbMB6GLy9" }
+      }
+    };
+
+    var T = {
+      en: {
+        eyebrow: "Members-Only Community",
+        brand: "BlackofJack Poker Club",
+        tagline: "Where real players meet.",
+        statPlayers: "Players Online",
+        statTables: "Active Tables",
+        statOpen: "Open",
+        feat1: "24/7 active tables, never wait to play",
+        feat2: "Beginner-friendly — new players welcome",
+        feat3: "An international, English-friendly community",
+        feat4: "A community of skilled, serious players",
+        joinTg: "Join on Telegram →",
+        joinWa: "Join on WhatsApp →",
+        formIntro: 'Want us to reach out first? Leave your details — <span>optional</span>',
+        lblNickname: "Nickname",
+        lblContact: "Telegram / WhatsApp",
+        lblEmail: "Email / Phone",
+        phNickname: "Your name",
+        phContact: "@username or +1 234 567 890",
+        phEmail: "you@email.com or phone number",
+        submit: "Send my details →",
+        formDone: "✓ Thanks! We'll be in touch.",
+        support: "Need help? Contact support",
+        footnote: '<span class="chip">18+</span> Play responsibly. For entertainment purposes only.',
+        privacy: "Privacy Policy",
+        errEmpty: "Fill at least one field, or just tap a button above to join.",
+        errFail: "Something went wrong. Please try again.",
+        sending: "Sending…"
+      },
+      zh: {
+        eyebrow: "会员制专属社群",
+        brand: "BlackofJack 扑克俱乐部",
+        tagline: "真正的牌手，在此相遇",
+        statPlayers: "在线玩家",
+        statTables: "活跃牌桌",
+        statOpen: "全天开放",
+        feat1: "24 小时活跃牌桌，随到随玩",
+        feat2: "新手友好，欢迎新玩家",
+        feat3: "国际化环境，全球玩家",
+        feat4: "认真牌手的精英社群",
+        joinTg: "加入 Telegram 群 →",
+        joinWa: "加入 WhatsApp 群 →",
+        formIntro: '想让我们主动联系你？留下联系方式 — <span>选填</span>',
+        lblNickname: "昵称",
+        lblContact: "Telegram / WhatsApp",
+        lblEmail: "邮箱 / 手机号",
+        phNickname: "你的昵称",
+        phContact: "@用户名 或 +手机号",
+        phEmail: "邮箱 或 手机号",
+        submit: "提交 →",
+        formDone: "✓ 已收到！我们会尽快联系你。",
+        support: "需要帮助？联系客服",
+        footnote: '<span class="chip">18+</span> 理性游戏，仅供娱乐。',
+        privacy: "隐私政策",
+        errEmpty: "请至少填写一项，或直接点上方按钮加入。",
+        errFail: "出错了，请重试。",
+        sending: "提交中…"
+      }
+    };
+
+    var curLang = 'en';
+
+    function applyLang(lang) {
+      if (!T[lang]) lang = 'en';
+      curLang = lang;
+      document.documentElement.lang = (lang === 'zh' ? 'zh' : 'en');
+      document.querySelectorAll('[data-i18n]').forEach(function (el) {
+        var k = el.getAttribute('data-i18n'); if (T[lang][k] != null) el.textContent = T[lang][k];
+      });
+      document.querySelectorAll('[data-i18n-html]').forEach(function (el) {
+        var k = el.getAttribute('data-i18n-html'); if (T[lang][k] != null) el.innerHTML = T[lang][k];
+      });
+      document.querySelectorAll('[data-i18n-ph]').forEach(function (el) {
+        var k = el.getAttribute('data-i18n-ph'); if (T[lang][k] != null) el.placeholder = T[lang][k];
+      });
+      var L = CONFIG.langs[lang] || CONFIG.langs.en;
+      var tg = document.getElementById('tgLink'), wa = document.getElementById('waLink'), sp = document.getElementById('supportLink');
+      if (tg) tg.href = L.telegram;
+      if (wa) wa.href = L.whatsapp;
+      if (sp) sp.href = CONFIG.support;
+      document.querySelectorAll('.lang-btn').forEach(function (b) {
+        b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+      });
+      try { localStorage.setItem('boj_lang', lang); } catch (e) {}
+    }
+
+    function detectLang() {
+      try { var s = localStorage.getItem('boj_lang'); if (s) return s; } catch (e) {}
+      var n = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+      return n.indexOf('zh') === 0 ? 'zh' : 'en';
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(function (b) {
+      b.addEventListener('click', function () { applyLang(b.getAttribute('data-lang')); });
+    });
+
+    // ---- lead form + pixel ----
+    var form = document.getElementById('leadForm');
+    var errEl = document.getElementById('formError');
+    var btn = document.getElementById('submitBtn');
+
+    // ====== 混合部署配置：静态页在 GitHub Pages，后端在 Cloudflare Worker ======
+    // 部署好 Worker 后，把下面改成你的 Worker 地址（结尾不要斜杠）
+    var LEAD_API = 'https://poker-lead.boj8827.workers.dev';
+    // 读取 Pixel 写在本页(github.io 域)的 _fbp / _fbc，随表单发给后端做 CAPI 匹配
+    // （跨域时后端收不到本域 cookie，必须由前端塞进 body）
+    function readCookie(name) {
+      var m = document.cookie.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]*)'));
+      return m ? decodeURIComponent(m[1]) : '';
+    }
+
+    ['tgLink', 'waLink'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('click', function () { if (window.fbq) fbq('track', 'Lead'); });
+    });
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      errEl.textContent = '';
+      var nickname = document.getElementById('nickname').value.trim();
+      var contact_tg = document.getElementById('contact_tg').value.trim();
+      var contact_email = document.getElementById('contact_email').value.trim();
+      if (!nickname && !contact_tg && !contact_email) { errEl.textContent = T[curLang].errEmpty; return; }
+      btn.disabled = true; btn.textContent = T[curLang].sending;
+      // 同一 event_id 供客户端 Pixel 与服务端 CAPI 去重合并
+      var eventId = (window.crypto && crypto.randomUUID)
+        ? crypto.randomUUID()
+        : (Date.now().toString(16) + '-' + Math.random().toString(16).slice(2));
+      try {
+        var res = await fetch(LEAD_API + '/api/lead', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nickname: nickname, contact_tg: contact_tg, contact_email: contact_email,
+            lang: curLang, event_id: eventId, pixel: '002',
+            _fbp: readCookie('_fbp'), _fbc: readCookie('_fbc'),
+            event_source_url: location.href
+          })
+        });
+        if (!res.ok) throw new Error('bad status ' + res.status);
+        if (window.fbq) fbq('track', 'Lead', {}, { eventID: eventId });
+        form.style.display = 'none';
+        document.getElementById('formDone').style.display = 'block';
+      } catch (err) {
+        btn.disabled = false; btn.textContent = T[curLang].submit;
+        errEl.textContent = T[curLang].errFail;
+      }
+    });
+
+    applyLang(detectLang());
+  </script>
+</body>
+</html>
