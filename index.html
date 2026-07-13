@@ -4,19 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BlackofJack Poker Club</title>
-  <meta name="description" content="An elite, beginner-friendly international poker community — 24/7 tables. Join us." />
+  <meta name="description" content="Join the club on Telegram — 24/7 tables, live games right now. Tap in." />
 
   <meta property="og:title" content="BlackofJack Poker Club" />
-  <meta property="og:description" content="24/7 tables · beginner-friendly · international community. Join us." />
+  <meta property="og:description" content="Games running 24/7 · tap in on Telegram." />
   <meta property="og:type" content="website" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <!-- ============================================================
        Meta Pixel —— 002 Pixel ID: 1750669099695127
-       PageView 客户端上报；Lead 客户端 + 服务端 CAPI 双发（同 event_id 去重）
+       PageView 客户端上报；本页无表单，TG/WA 跳转点击上报 CompleteRegistration
        ============================================================ -->
   <script>
     !function(f,b,e,v,n,t,s)
@@ -36,22 +36,21 @@
 
   <style>
     :root {
-      --gold:        #e9c46a;
-      --gold-bright: #f6d98a;
-      --gold-deep:   #b8893b;
-      --black:       #0b0c0e;
-      --black-soft:  #16181c;
-      --red:         #c7ccd4;   /* 复用为银色（占原红色位）*/
-      --red-bright:  #e2e6ec;   /* 复用为亮银 */
-      --ink:         #eceff4;
-      --muted:       #a3aab5;
+      --bg:          #0a0c11;
+      --bg-soft:     #12151c;
       --tg:          #2aabee;
-      --tg-deep:     #1d8fc9;
-      --glass:       rgba(255, 255, 255, 0.05);
-      --glass-brd:   rgba(200, 206, 214, 0.24);
+      --tg-bright:   #58c6ff;
+      --tg-deep:     #1785c4;
+      --green:       #3ddc84;
+      --wa:          #25d366;
+      --wa-deep:     #1da851;
+      --ink:         #eef1f6;
+      --muted:       #99a2b0;
       --silver:      #c7ccd4;
-      --silver-bright:#eef1f6;
-      --silver-deep: #7f8792;
+      --silver-brt:  #eef1f6;
+      --gold:        #e9c46a;
+      --glass:       rgba(255, 255, 255, 0.05);
+      --glass-brd:   rgba(120, 150, 190, 0.22);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -61,18 +60,18 @@
     body {
       font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       color: var(--ink);
-      line-height: 1.55;
+      line-height: 1.5;
       -webkit-font-smoothing: antialiased;
       min-height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 28px 20px;
+      padding: 26px 18px 96px;
       position: relative;
       overflow-x: hidden;
       background:
-        radial-gradient(120% 90% at 50% -12%, #2b2e35 0%, #15171b 46%, #0a0b0d 100%),
-        #0a0b0d;
+        radial-gradient(120% 90% at 50% -10%, #17202b 0%, #0f141b 46%, #080a0e 100%),
+        #080a0e;
     }
 
     body::before {
@@ -80,36 +79,32 @@
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(55% 40% at 50% 30%, rgba(220, 226, 236, 0.09), transparent 70%),
-        radial-gradient(55% 42% at 50% 116%, rgba(233, 196, 106, 0.10), transparent 70%),
-        radial-gradient(120% 120% at 50% 120%, rgba(0,0,0,0.6), transparent 60%);
+        radial-gradient(55% 40% at 50% 22%, rgba(42, 171, 238, 0.14), transparent 70%),
+        radial-gradient(50% 40% at 50% 112%, rgba(61, 220, 132, 0.10), transparent 70%);
       pointer-events: none;
       z-index: 0;
     }
 
-    /* ---- floating suit symbols ---- */
+    /* ---- floating suit symbols (cool tone) ---- */
     .suits { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
     .suits span {
       position: absolute; font-size: 64px;
-      color: rgba(233, 196, 106, 0.06);
-      animation: drift 18s linear infinite; user-select: none;
+      color: rgba(160, 190, 220, 0.05);
+      animation: drift 20s linear infinite; user-select: none;
     }
-    .suits span:nth-child(1) { left: 6%;  top: 12%; animation-duration: 22s; }
-    .suits span:nth-child(2) { left: 82%; top: 18%; font-size: 90px; animation-duration: 26s; }
-    .suits span:nth-child(3) { left: 14%; top: 72%; font-size: 110px; animation-duration: 30s; }
-    .suits span:nth-child(4) { left: 76%; top: 70%; animation-duration: 20s; }
-    .suits span:nth-child(5) { left: 46%; top: 8%;  font-size: 48px; animation-duration: 24s; }
-    .suits span:nth-child(2), .suits span:nth-child(4) { color: rgba(199, 204, 212, 0.12); }
-
+    .suits span:nth-child(1) { left: 7%;  top: 14%; animation-duration: 24s; }
+    .suits span:nth-child(2) { left: 81%; top: 16%; font-size: 92px; animation-duration: 28s; }
+    .suits span:nth-child(3) { left: 12%; top: 74%; font-size: 108px; animation-duration: 32s; }
+    .suits span:nth-child(4) { left: 78%; top: 72%; animation-duration: 22s; }
     @keyframes drift {
       0%   { transform: translateY(0) rotate(0deg);   opacity: .5; }
-      50%  { transform: translateY(-26px) rotate(8deg); opacity: 1; }
+      50%  { transform: translateY(-24px) rotate(6deg); opacity: 1; }
       100% { transform: translateY(0) rotate(0deg);   opacity: .5; }
     }
 
     /* ---- language switch ---- */
     .lang-switch {
-      position: fixed; top: 14px; right: 14px; z-index: 5;
+      position: fixed; top: 14px; right: 14px; z-index: 6;
       display: flex; gap: 3px;
       background: rgba(0,0,0,0.4); border: 1px solid var(--glass-brd);
       border-radius: 999px; padding: 3px; backdrop-filter: blur(8px);
@@ -119,124 +114,163 @@
       font-family: inherit; font-size: 12px; font-weight: 700;
       padding: 5px 12px; border-radius: 999px; cursor: pointer; transition: all .2s;
     }
-    .lang-btn.active { background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep)); color: #1b1206; }
+    .lang-btn.active { background: linear-gradient(135deg, var(--tg-bright), var(--tg-deep)); color: #04222f; }
 
     /* ---- card ---- */
     .card {
-      position: relative; z-index: 1; width: 100%; max-width: 460px; min-width: 0;
-      background: linear-gradient(180deg, rgba(28, 28, 35, 0.80), rgba(9, 9, 12, 0.92));
+      position: relative; z-index: 1; width: 100%; max-width: 452px; min-width: 0;
+      background: linear-gradient(180deg, rgba(22, 27, 36, 0.82), rgba(9, 11, 15, 0.94));
       backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
       border: 1px solid var(--glass-brd); border-radius: 24px;
-      padding: 44px 34px 34px; text-align: center;
+      padding: 34px 26px 28px; text-align: center;
       box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06);
     }
     .card::before {
       content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
       width: 64%; height: 2px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: .8;
+      background: linear-gradient(90deg, transparent, var(--tg), transparent); opacity: .85;
     }
 
+    /* ---- brand head ---- */
+    .brand-row { display: flex; align-items: center; justify-content: center; gap: 11px; }
     .emblem {
-      width: 78px; height: 78px; margin: 0 auto 18px; border-radius: 50%;
-      display: grid; place-items: center; font-size: 34px; color: #23262b;
-      background: radial-gradient(circle at 35% 28%, #ffffff, var(--silver) 45%, var(--silver-deep) 100%);
-      box-shadow: 0 8px 22px rgba(199, 204, 212, 0.35), inset 0 -3px 8px rgba(70, 78, 90, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.7);
+      width: 46px; height: 46px; border-radius: 50%;
+      display: grid; place-items: center; font-size: 21px; color: #10222b; flex: 0 0 auto;
+      background: radial-gradient(circle at 35% 28%, #fff, var(--silver) 45%, #7f8792 100%);
+      box-shadow: 0 6px 16px rgba(199, 204, 212, 0.3), inset 0 -2px 6px rgba(70, 78, 90, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.7);
     }
-
-    .eyebrow { font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 8px; }
-
     h1 {
       font-family: "Playfair Display", Georgia, serif;
-      font-size: clamp(28px, 8.5vw, 38px); font-weight: 900; letter-spacing: -0.01em; line-height: 1.05;
-      background: linear-gradient(180deg, #ffffff 0%, var(--silver-bright) 42%, var(--gold) 100%);
+      font-size: clamp(21px, 6vw, 26px); font-weight: 900; letter-spacing: -0.01em; line-height: 1.05;
+      background: linear-gradient(180deg, #fff 0%, var(--silver-brt) 45%, #9aa3b0 100%);
       -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      text-align: left;
     }
 
-    .tagline { margin-top: 10px; font-size: 14px; letter-spacing: 0.05em; color: var(--muted); font-style: italic; font-family: "Playfair Display", Georgia, serif; }
-
-    /* ---- stats ---- */
-    .stats {
-      display: flex; justify-content: center; gap: 0; width: 100%; margin: 24px auto 4px; max-width: 360px;
-      border: 1px solid rgba(233, 196, 106, 0.15); border-radius: 14px; overflow: hidden; background: var(--glass);
+    /* ---- live eyebrow ---- */
+    .live-eyebrow {
+      display: inline-flex; align-items: center; gap: 7px; margin-top: 18px;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.04em; color: var(--green);
+      background: rgba(61, 220, 132, 0.10); border: 1px solid rgba(61, 220, 132, 0.28);
+      border-radius: 999px; padding: 5px 13px;
     }
-    .stats div { flex: 1 1 0; min-width: 0; padding: 12px 4px; position: relative; }
-    .stats div + div::before { content: ""; position: absolute; left: 0; top: 18%; height: 64%; width: 1px; background: rgba(233, 196, 106, 0.15); }
-    .stats .num { font-family: "Playfair Display", serif; font-size: 20px; font-weight: 700; color: var(--silver-bright); }
-    .stats .lbl { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
     .live-dot {
-      display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #3ddc84;
-      box-shadow: 0 0 0 0 rgba(61, 220, 132, 0.7); animation: pulse 1.8s infinite; vertical-align: middle; margin-right: 5px;
+      display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--green);
+      box-shadow: 0 0 0 0 rgba(61, 220, 132, 0.7); animation: pulse 1.7s infinite;
     }
     @keyframes pulse {
       0%   { box-shadow: 0 0 0 0 rgba(61, 220, 132, 0.6); }
-      70%  { box-shadow: 0 0 0 7px rgba(61, 220, 132, 0); }
+      70%  { box-shadow: 0 0 0 8px rgba(61, 220, 132, 0); }
       100% { box-shadow: 0 0 0 0 rgba(61, 220, 132, 0); }
     }
 
-    /* ---- features ---- */
-    .features { list-style: none; text-align: left; margin: 26px auto 0; max-width: 330px; display: grid; gap: 11px; }
+    .headline {
+      margin-top: 16px; font-size: clamp(19px, 5.6vw, 23px); font-weight: 800; line-height: 1.25;
+      letter-spacing: -0.01em; color: var(--ink);
+    }
+    .headline b { color: var(--tg-bright); }
+
+    /* ---- social proof ---- */
+    .social { margin-top: 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .avatars { display: flex; align-items: center; }
+    .avatars .av {
+      width: 34px; height: 34px; border-radius: 50%; margin-left: -10px; border: 2px solid #12151c;
+      background-size: cover; box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    }
+    .avatars .av:first-child { margin-left: 0; }
+    .avatars .av1 { background: linear-gradient(135deg, #4fc0ff, #1785c4); }
+    .avatars .av2 { background: linear-gradient(135deg, #3ddc84, #17a860); }
+    .avatars .av3 { background: linear-gradient(135deg, #e9c46a, #b8893b); }
+    .avatars .av4 { background: linear-gradient(135deg, #c7ccd4, #7f8792); }
+    .avatars .av5 { background: linear-gradient(135deg, #e8505b, #a52630); }
+    .avatars .more {
+      width: 34px; height: 34px; border-radius: 50%; margin-left: -10px; border: 2px solid #12151c;
+      display: grid; place-items: center; font-size: 11px; font-weight: 700; color: var(--ink);
+      background: rgba(255,255,255,0.10);
+    }
+    .proof-text { font-size: 13px; color: var(--muted); }
+    .proof-text b { color: var(--ink); font-weight: 700; }
+    .online-line { font-size: 13px; color: var(--muted); display: inline-flex; align-items: center; gap: 7px; }
+    .online-line .num { color: var(--green); font-weight: 700; }
+
+    /* ---- HERO CTA ---- */
+    .hero-cta { margin-top: 24px; }
+    .btn-hero {
+      display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%;
+      padding: 20px 22px; border-radius: 16px; font-size: 18px; font-weight: 800; letter-spacing: 0.01em;
+      text-decoration: none; color: #fff; position: relative;
+      background: linear-gradient(135deg, var(--tg-bright), var(--tg-deep));
+      box-shadow: 0 14px 34px rgba(42, 171, 238, 0.5), inset 0 1px 0 rgba(255,255,255,0.25);
+      animation: heroPulse 2.6s ease-in-out infinite;
+      transition: transform .08s ease, filter .2s ease;
+    }
+    .btn-hero:active { transform: scale(0.986); }
+    .btn-hero:hover { filter: brightness(1.06); }
+    .btn-hero svg { width: 26px; height: 26px; flex: 0 0 auto; }
+    @keyframes heroPulse {
+      0%, 100% { box-shadow: 0 14px 34px rgba(42, 171, 238, 0.42), inset 0 1px 0 rgba(255,255,255,0.25); }
+      50%      { box-shadow: 0 16px 40px rgba(42, 171, 238, 0.7), inset 0 1px 0 rgba(255,255,255,0.25); }
+    }
+    .hero-sub { margin-top: 9px; font-size: 12px; color: var(--muted); }
+
+    /* ---- ticker ---- */
+    .ticker {
+      margin-top: 16px; height: 22px; overflow: hidden; font-size: 13px; color: var(--silver);
+    }
+    .ticker span { display: block; transition: opacity .4s ease; }
+
+    /* ---- features (compact) ---- */
+    .features { list-style: none; text-align: left; margin: 22px auto 0; max-width: 340px; display: grid; gap: 9px; }
     .features li {
-      display: flex; align-items: center; gap: 13px; min-width: 0; font-size: 14.5px; color: var(--ink);
-      padding: 9px 12px; border-radius: 11px; background: var(--glass); border: 1px solid rgba(255,255,255,0.04);
-      transition: border-color .2s ease, transform .2s ease;
+      display: flex; align-items: center; gap: 12px; min-width: 0; font-size: 14px; color: var(--ink);
+      padding: 8px 12px; border-radius: 11px; background: var(--glass); border: 1px solid rgba(255,255,255,0.04);
     }
-    .features li:hover { border-color: var(--glass-brd); transform: translateX(3px); }
     .features .suit {
-      flex: 0 0 auto; width: 26px; height: 26px; border-radius: 7px; display: inline-flex; align-items: center; justify-content: center;
-      font-size: 14px; color: var(--gold-bright); background: rgba(233, 196, 106, 0.12);
+      flex: 0 0 auto; width: 25px; height: 25px; border-radius: 7px; display: inline-flex; align-items: center; justify-content: center;
+      font-size: 13px; color: var(--tg-bright); background: rgba(42, 171, 238, 0.14);
     }
-    .features li:nth-child(2) .suit, .features li:nth-child(4) .suit { color: var(--red-bright); background: rgba(209, 43, 58, 0.14); }
+    .features li:nth-child(2) .suit { color: var(--green); background: rgba(61, 220, 132, 0.14); }
+    .features li:nth-child(3) .suit { color: var(--silver-brt); background: rgba(199, 204, 212, 0.14); }
 
-    /* ---- CTA ---- */
-    .cta { margin-top: 30px; display: grid; gap: 13px; }
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%;
-      padding: 16px 22px; border-radius: 14px; font-size: 16px; font-weight: 700; letter-spacing: 0.01em; text-decoration: none;
-      transition: transform .08s ease, box-shadow .25s ease, filter .2s ease;
+    /* ---- secondary WhatsApp + support ---- */
+    .wa-link {
+      display: inline-flex; align-items: center; gap: 7px; margin-top: 20px; font-size: 13px;
+      color: var(--wa); text-decoration: none; font-weight: 600;
     }
-    .btn svg { width: 20px; height: 20px; flex: 0 0 auto; }
-    .btn:active { transform: scale(0.985); }
-    .btn-primary { color: #fff; background: linear-gradient(135deg, var(--tg), var(--tg-deep)); box-shadow: 0 10px 26px rgba(42, 171, 238, 0.4); }
-    .btn-primary:hover { filter: brightness(1.06); box-shadow: 0 14px 32px rgba(42, 171, 238, 0.55); }
-    .btn-secondary { color: var(--gold-bright); background: rgba(233, 196, 106, 0.08); border: 1px solid var(--glass-brd); }
-    .btn-secondary:hover { background: rgba(233, 196, 106, 0.16); box-shadow: 0 8px 20px rgba(233, 196, 106, 0.18); }
-    .btn-whatsapp { color: #fff; background: linear-gradient(135deg, #25d366, #1da851); box-shadow: 0 10px 26px rgba(37, 211, 102, 0.38); }
-    .btn-whatsapp:hover { filter: brightness(1.06); box-shadow: 0 14px 32px rgba(37, 211, 102, 0.5); }
-
-    /* ---- support link ---- */
+    .wa-link svg { width: 16px; height: 16px; }
+    .wa-link:hover { filter: brightness(1.12); }
     .support-link {
-      display: inline-block; margin-top: 16px; font-size: 12.5px; color: var(--gold);
-      text-decoration: none; border-bottom: 1px solid rgba(233,196,106,0.3); padding-bottom: 1px;
+      display: block; margin-top: 14px; font-size: 12.5px; color: var(--muted); text-decoration: none;
     }
-    .support-link:hover { color: var(--gold-bright); }
+    .support-link u { color: var(--silver); }
+    .support-link:hover u { color: var(--ink); }
 
     .footnote { margin-top: 18px; font-size: 11.5px; color: var(--muted); letter-spacing: 0.03em; }
-    .footnote .chip { display: inline-block; border: 1px solid rgba(233,196,106,0.3); border-radius: 999px; padding: 2px 9px; color: var(--gold); font-weight: 600; margin-right: 6px; }
-    .privacy-link { display: inline-block; margin-top: 12px; font-size: 11.5px; color: var(--muted); text-decoration: underline; text-underline-offset: 2px; }
-    .privacy-link:hover { color: var(--gold); }
+    .footnote .chip { display: inline-block; border: 1px solid rgba(199,204,212,0.3); border-radius: 999px; padding: 2px 9px; color: var(--silver); font-weight: 600; margin-right: 6px; }
+    .privacy-link { display: inline-block; margin-top: 11px; font-size: 11.5px; color: var(--muted); text-decoration: underline; text-underline-offset: 2px; }
+    .privacy-link:hover { color: var(--silver); }
 
-    /* ---- lead form ---- */
-    .lead-form { margin-top: 28px; display: grid; gap: 13px; text-align: left; }
-    .lead-form .field { display: grid; gap: 5px; }
-    .lead-form label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
-    .lead-form input {
-      width: 100%; padding: 13px 14px; border-radius: 11px; background: rgba(0,0,0,0.25); color: var(--ink);
-      border: 1px solid var(--glass-brd); font-size: 15px; font-family: inherit; transition: border-color .2s ease, box-shadow .2s ease;
+    /* ---- sticky bottom CTA (appears on scroll) ---- */
+    .sticky-cta {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 7;
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      background: linear-gradient(180deg, rgba(8,10,14,0), rgba(8,10,14,0.92) 34%);
+      display: flex; justify-content: center;
+      transform: translateY(120%); transition: transform .3s ease; pointer-events: none;
     }
-    .lead-form input::placeholder { color: rgba(185,180,168,0.55); }
-    .lead-form input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(233,196,106,0.15); }
-    .form-intro { font-size: 12.5px; color: var(--muted); text-align: center; margin-bottom: 2px; }
-    .form-intro span { color: var(--gold); font-weight: 600; }
-    .form-done { display: none; margin-top: 20px; text-align: center; color: var(--gold-bright); font-size: 15px; font-weight: 600; }
-    .form-error { color: #ff9b8a; font-size: 12.5px; min-height: 1em; }
-    button.btn { border: none; cursor: pointer; font-family: inherit; }
-    button.btn:disabled { filter: grayscale(.4) brightness(.8); cursor: default; }
+    .sticky-cta.show { transform: translateY(0); pointer-events: auto; }
+    .sticky-cta a {
+      display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; max-width: 452px;
+      padding: 15px 20px; border-radius: 14px; font-size: 16px; font-weight: 800; text-decoration: none; color: #fff;
+      background: linear-gradient(135deg, var(--tg-bright), var(--tg-deep));
+      box-shadow: 0 -4px 24px rgba(42, 171, 238, 0.45);
+    }
+    .sticky-cta a svg { width: 20px; height: 20px; }
 
     @media (max-width: 400px) {
-      body { padding: 20px 14px; }
-      .card { padding: 34px 20px 26px; }
-      .stats .num { font-size: 17px; }
-      .stats .lbl { font-size: 9px; letter-spacing: 0.06em; }
+      body { padding: 20px 13px 92px; }
+      .card { padding: 28px 18px 24px; }
+      .btn-hero { font-size: 17px; padding: 18px; }
     }
   </style>
 </head>
@@ -249,70 +283,67 @@
 
   <!-- floating suit motifs -->
   <div class="suits" aria-hidden="true">
-    <span>&#9824;</span><span>&#9829;</span><span>&#9827;</span><span>&#9830;</span><span>&#9824;</span>
+    <span>&#9824;</span><span>&#9829;</span><span>&#9827;</span><span>&#9830;</span>
   </div>
 
   <main class="card">
-    <div class="emblem">&#9824;</div>
-    <p class="eyebrow" data-i18n="eyebrow">Members-Only Community</p>
-    <h1 data-i18n="brand">BlackofJack Poker Club</h1>
-    <p class="tagline" data-i18n="tagline">Where real players meet.</p>
-
-    <div class="stats">
-      <div><div class="num"><span class="live-dot"></span>1.2k</div><div class="lbl" data-i18n="statPlayers">Players Online</div></div>
-      <div><div class="num">50+</div><div class="lbl" data-i18n="statTables">Active Tables</div></div>
-      <div><div class="num">24/7</div><div class="lbl" data-i18n="statOpen">Open</div></div>
+    <div class="brand-row">
+      <div class="emblem">&#9824;</div>
+      <h1 data-i18n="brand">BlackofJack Poker Club</h1>
     </div>
 
-    <ul class="features">
-      <li><span class="suit">&#9824;</span> <span data-i18n="feat1">24/7 active tables, never wait to play</span></li>
-      <li><span class="suit">&#9829;</span> <span data-i18n="feat2">Beginner-friendly — new players welcome</span></li>
-      <li><span class="suit">&#9827;</span> <span data-i18n="feat3">An international, English-friendly community</span></li>
-      <li><span class="suit">&#9830;</span> <span data-i18n="feat4">A community of skilled, serious players</span></li>
-    </ul>
+    <div class="live-eyebrow"><span class="live-dot"></span><span data-i18n="live">Games running now</span></div>
 
-    <!-- 主跳转按钮（链接按语言切换）/ Primary jump buttons (per-language links) -->
-    <div class="cta">
-      <a class="btn btn-primary" id="tgLink" href="#" target="_blank" rel="noopener noreferrer">
+    <p class="headline" data-i18n-html="headline">Players are at the tables — <b>tap in and join a game</b></p>
+
+    <div class="social">
+      <div class="avatars" aria-hidden="true">
+        <span class="av av1"></span><span class="av av2"></span><span class="av av3"></span>
+        <span class="av av4"></span><span class="av av5"></span><span class="more">8k+</span>
+      </div>
+      <div class="proof-text" data-i18n-html="proof"><b>8,000+</b> players already joined</div>
+      <div class="online-line"><span class="live-dot"></span><span class="num" id="onlineNum">1,286</span><span data-i18n="online">online · 50+ tables live</span></div>
+    </div>
+
+    <!-- HERO: 主跳转按钮（Telegram） -->
+    <div class="hero-cta">
+      <a class="btn-hero" id="tgLink" href="#" target="_blank" rel="noopener noreferrer">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71l-4.07-3.04-1.96 1.9c-.21.21-.39.39-.78.39z"/></svg>
         <span data-i18n="joinTg">Join on Telegram →</span>
       </a>
-      <a class="btn btn-whatsapp" id="waLink" href="#" target="_blank" rel="noopener noreferrer">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm0 1.67c2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 012.42 5.82c0 4.54-3.7 8.24-8.25 8.24-1.52 0-3.01-.41-4.3-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 01-1.26-4.35c0-4.54 3.7-8.24 8.24-8.24zm4.71 9.94c-.26-.13-1.52-.75-1.76-.84-.24-.09-.41-.13-.59.13-.17.26-.67.84-.82 1.01-.15.17-.3.2-.56.07-.26-.13-1.09-.4-2.07-1.28-.77-.68-1.28-1.53-1.43-1.79-.15-.26-.02-.4.11-.53.12-.12.26-.3.39-.46.13-.15.17-.26.26-.43.09-.17.04-.32-.02-.45-.07-.13-.59-1.42-.81-1.94-.21-.51-.43-.44-.59-.45-.15-.01-.33-.01-.5-.01s-.45.06-.69.32c-.24.26-.9.88-.9 2.14 0 1.26.92 2.48 1.05 2.65.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.52-.62 1.74-1.22.21-.6.21-1.11.15-1.22-.06-.11-.24-.17-.5-.3z"/></svg>
-        <span data-i18n="joinWa">Join on WhatsApp →</span>
-      </a>
+      <p class="hero-sub" data-i18n="heroSub">Free to join · takes 5 seconds</p>
     </div>
 
-    <!-- 选填留资 / optional lead capture -->
-    <form class="lead-form" id="leadForm" novalidate>
-      <p class="form-intro" data-i18n-html="formIntro">Want us to reach out first? Leave your details — <span>optional</span></p>
-      <div class="field">
-        <label for="nickname" data-i18n="lblNickname">Nickname</label>
-        <input id="nickname" name="nickname" type="text" data-i18n-ph="phNickname" placeholder="Your name" autocomplete="nickname" maxlength="60" />
-      </div>
-      <div class="field">
-        <label for="contact_tg" data-i18n="lblContact">Telegram / WhatsApp</label>
-        <input id="contact_tg" name="contact_tg" type="text" data-i18n-ph="phContact" placeholder="@username or +1 234 567 890" autocomplete="off" maxlength="120" />
-      </div>
-      <div class="field">
-        <label for="contact_email" data-i18n="lblEmail">Email / Phone</label>
-        <input id="contact_email" name="contact_email" type="text" data-i18n-ph="phEmail" placeholder="you@email.com or phone number" autocomplete="email" maxlength="120" />
-      </div>
-      <p class="form-error" id="formError" role="alert"></p>
-      <button type="submit" class="btn btn-secondary" id="submitBtn" data-i18n="submit">Send my details →</button>
-    </form>
+    <!-- ambient live ticker -->
+    <div class="ticker" aria-hidden="true"><span id="tickerLine"></span></div>
 
-    <p class="form-done" id="formDone" data-i18n="formDone">✓ Thanks! We'll be in touch.</p>
+    <ul class="features">
+      <li><span class="suit">&#9824;</span> <span data-i18n="feat1">24/7 active tables — never wait to play</span></li>
+      <li><span class="suit">&#9829;</span> <span data-i18n="feat2">Beginner-friendly — players show you the ropes</span></li>
+      <li><span class="suit">&#9827;</span> <span data-i18n="feat3">Friendly community, fair play</span></li>
+    </ul>
 
-    <a class="support-link" id="supportLink" href="#" target="_blank" rel="noopener noreferrer" data-i18n="support">Need help? Contact support</a>
+    <a class="wa-link" id="waLink" href="#" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm4.71 11.94c-.26-.13-1.52-.75-1.76-.84-.24-.09-.41-.13-.59.13-.17.26-.67.84-.82 1.01-.15.17-.3.2-.56.07-.26-.13-1.09-.4-2.07-1.28-.77-.68-1.28-1.53-1.43-1.79-.15-.26-.02-.4.11-.53.12-.12.26-.3.39-.46.13-.15.17-.26.26-.43.09-.17.04-.32-.02-.45-.07-.13-.59-1.42-.81-1.94-.21-.51-.43-.44-.59-.45-.15-.01-.33-.01-.5-.01s-.45.06-.69.32c-.24.26-.9.88-.9 2.14 0 1.26.92 2.48 1.05 2.65.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.52-.62 1.74-1.22.21-.6.21-1.11.15-1.22-.06-.11-.24-.17-.5-.3z"/></svg>
+      <span data-i18n="joinWa">Prefer WhatsApp? Join here</span>
+    </a>
+
+    <a class="support-link" id="supportLink" href="#" target="_blank" rel="noopener noreferrer" data-i18n-html="support">Need help? <u>Contact support</u></a>
 
     <p class="footnote" data-i18n-html="footnote"><span class="chip">18+</span> Play responsibly. For entertainment purposes only.</p>
     <a class="privacy-link" href="privacy.html" target="_blank" rel="noopener noreferrer" data-i18n="privacy">Privacy Policy</a>
   </main>
 
+  <!-- sticky bottom CTA -->
+  <div class="sticky-cta" id="stickyCta">
+    <a id="tgLinkSticky" href="#" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71l-4.07-3.04-1.96 1.9c-.21.21-.39.39-.78.39z"/></svg>
+      <span data-i18n="joinTg">Join on Telegram →</span>
+    </a>
+  </div>
+
   <!-- ============================================================
-       配置区 —— 4 个群 + 客服链接（已填好）
-       如需改群链接，直接改下面 CONFIG 里的 en / zh 即可
+       配置区 —— 群链接 + 客服（沿用 A 页已填好的）
        ============================================================ -->
   <script>
     var CONFIG = {
@@ -325,66 +356,53 @@
 
     var T = {
       en: {
-        eyebrow: "Members-Only Community",
         brand: "BlackofJack Poker Club",
-        tagline: "Where real players meet.",
-        statPlayers: "Players Online",
-        statTables: "Active Tables",
-        statOpen: "Open",
-        feat1: "24/7 active tables, never wait to play",
-        feat2: "Beginner-friendly — new players welcome",
-        feat3: "An international, English-friendly community",
-        feat4: "A community of skilled, serious players",
+        live: "Games running now",
+        headline: 'Players are at the tables — <b>tap in and join a game</b>',
+        proof: '<b>8,000+</b> players already joined',
+        online: "online · 50+ tables live",
         joinTg: "Join on Telegram →",
-        joinWa: "Join on WhatsApp →",
-        formIntro: 'Want us to reach out first? Leave your details — <span>optional</span>',
-        lblNickname: "Nickname",
-        lblContact: "Telegram / WhatsApp",
-        lblEmail: "Email / Phone",
-        phNickname: "Your name",
-        phContact: "@username or +1 234 567 890",
-        phEmail: "you@email.com or phone number",
-        submit: "Send my details →",
-        formDone: "✓ Thanks! We'll be in touch.",
-        support: "Need help? Contact support",
+        heroSub: "Free to join · takes 5 seconds",
+        feat1: "24/7 active tables — never wait to play",
+        feat2: "Beginner-friendly — players show you the ropes",
+        feat3: "Friendly community, fair play",
+        joinWa: "Prefer WhatsApp? Join here",
+        support: 'Need help? <u>Contact support</u>',
         footnote: '<span class="chip">18+</span> Play responsibly. For entertainment purposes only.',
         privacy: "Privacy Policy",
-        errEmpty: "Fill at least one field, or just tap a button above to join.",
-        errFail: "Something went wrong. Please try again.",
-        sending: "Sending…"
+        ticker: [
+          "🔥 Games running now — seats open",
+          "♠️ A new table just opened",
+          "🃏 Players are waiting for you",
+          "💬 Community live right now"
+        ]
       },
       zh: {
-        eyebrow: "会员制专属社群",
         brand: "BlackofJack 扑克俱乐部",
-        tagline: "真正的牌手，在此相遇",
-        statPlayers: "在线玩家",
-        statTables: "活跃牌桌",
-        statOpen: "全天开放",
+        live: "牌局进行中",
+        headline: '牌友都在牌桌上 —— <b>点一下，马上进局</b>',
+        proof: '已有 <b>8,000+</b> 牌手加入',
+        online: "在线 · 50+ 桌正在开",
+        joinTg: "进 Telegram 群 →",
+        heroSub: "免费加入 · 5 秒搞定",
         feat1: "24 小时活跃牌桌，随到随玩",
-        feat2: "新手友好，欢迎新玩家",
-        feat3: "国际化环境，全球玩家",
-        feat4: "认真牌手的精英社群",
-        joinTg: "加入 Telegram 群 →",
-        joinWa: "加入 WhatsApp 群 →",
-        formIntro: '想让我们主动联系你？留下联系方式 — <span>选填</span>',
-        lblNickname: "昵称",
-        lblContact: "Telegram / WhatsApp",
-        lblEmail: "邮箱 / 手机号",
-        phNickname: "你的昵称",
-        phContact: "@用户名 或 +手机号",
-        phEmail: "邮箱 或 手机号",
-        submit: "提交 →",
-        formDone: "✓ 已收到！我们会尽快联系你。",
-        support: "需要帮助？联系客服",
+        feat2: "新手友好，牌友带你上手",
+        feat3: "友好华人社群，公平竞技",
+        joinWa: "更习惯 WhatsApp？点这里加入",
+        support: '需要帮助？<u>联系客服</u>',
         footnote: '<span class="chip">18+</span> 理性游戏，仅供娱乐。',
         privacy: "隐私政策",
-        errEmpty: "请至少填写一项，或直接点上方按钮加入。",
-        errFail: "出错了，请重试。",
-        sending: "提交中…"
+        ticker: [
+          "🔥 牌局进行中，随时有位",
+          "♠️ 新桌刚开，快上座",
+          "🃏 牌友正在等你入局",
+          "💬 社群实时开黑中"
+        ]
       }
     };
 
     var curLang = 'en';
+    var tickerTimer = null, tickerIdx = 0;
 
     function applyLang(lang) {
       if (!T[lang]) lang = 'en';
@@ -396,18 +414,35 @@
       document.querySelectorAll('[data-i18n-html]').forEach(function (el) {
         var k = el.getAttribute('data-i18n-html'); if (T[lang][k] != null) el.innerHTML = T[lang][k];
       });
-      document.querySelectorAll('[data-i18n-ph]').forEach(function (el) {
-        var k = el.getAttribute('data-i18n-ph'); if (T[lang][k] != null) el.placeholder = T[lang][k];
-      });
       var L = CONFIG.langs[lang] || CONFIG.langs.en;
-      var tg = document.getElementById('tgLink'), wa = document.getElementById('waLink'), sp = document.getElementById('supportLink');
+      var tg = document.getElementById('tgLink'), tgS = document.getElementById('tgLinkSticky');
+      var wa = document.getElementById('waLink'), sp = document.getElementById('supportLink');
       if (tg) tg.href = L.telegram;
+      if (tgS) tgS.href = L.telegram;
       if (wa) wa.href = L.whatsapp;
       if (sp) sp.href = CONFIG.support;
       document.querySelectorAll('.lang-btn').forEach(function (b) {
         b.classList.toggle('active', b.getAttribute('data-lang') === lang);
       });
+      startTicker();
       try { localStorage.setItem('boj_lang', lang); } catch (e) {}
+    }
+
+    function startTicker() {
+      var el = document.getElementById('tickerLine');
+      if (!el) return;
+      if (tickerTimer) clearInterval(tickerTimer);
+      var lines = T[curLang].ticker;
+      tickerIdx = 0;
+      el.style.opacity = 1; el.textContent = lines[0];
+      tickerTimer = setInterval(function () {
+        el.style.opacity = 0;
+        setTimeout(function () {
+          tickerIdx = (tickerIdx + 1) % lines.length;
+          el.textContent = lines[tickerIdx];
+          el.style.opacity = 1;
+        }, 400);
+      }, 2800);
     }
 
     function detectLang() {
@@ -420,57 +455,35 @@
       b.addEventListener('click', function () { applyLang(b.getAttribute('data-lang')); });
     });
 
-    // ---- lead form + pixel ----
-    var form = document.getElementById('leadForm');
-    var errEl = document.getElementById('formError');
-    var btn = document.getElementById('submitBtn');
-
-    // ====== 混合部署配置：静态页在 GitHub Pages，后端在 Cloudflare Worker ======
-    // 部署好 Worker 后，把下面改成你的 Worker 地址（结尾不要斜杠）
-    var LEAD_API = 'https://poker-lead.boj8827.workers.dev';
-    // 读取 Pixel 写在本页(github.io 域)的 _fbp / _fbc，随表单发给后端做 CAPI 匹配
-    // （跨域时后端收不到本域 cookie，必须由前端塞进 body）
-    function readCookie(name) {
-      var m = document.cookie.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]*)'));
-      return m ? decodeURIComponent(m[1]) : '';
-    }
-
-    ['tgLink', 'waLink'].forEach(function (id) {
+    // ---- 跳转点击上报：TG / WhatsApp 点击 = CompleteRegistration（注册）----
+    ['tgLink', 'tgLinkSticky', 'waLink'].forEach(function (id) {
       var el = document.getElementById(id);
-      if (el) el.addEventListener('click', function () { if (window.fbq) fbq('track', 'Lead'); });
+      if (el) el.addEventListener('click', function () {
+        if (window.fbq) fbq('track', 'CompleteRegistration');
+      });
     });
 
-    form.addEventListener('submit', async function (e) {
-      e.preventDefault();
-      errEl.textContent = '';
-      var nickname = document.getElementById('nickname').value.trim();
-      var contact_tg = document.getElementById('contact_tg').value.trim();
-      var contact_email = document.getElementById('contact_email').value.trim();
-      if (!nickname && !contact_tg && !contact_email) { errEl.textContent = T[curLang].errEmpty; return; }
-      btn.disabled = true; btn.textContent = T[curLang].sending;
-      // 同一 event_id 供客户端 Pixel 与服务端 CAPI 去重合并
-      var eventId = (window.crypto && crypto.randomUUID)
-        ? crypto.randomUUID()
-        : (Date.now().toString(16) + '-' + Math.random().toString(16).slice(2));
-      try {
-        var res = await fetch(LEAD_API + '/api/lead', {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            nickname: nickname, contact_tg: contact_tg, contact_email: contact_email,
-            lang: curLang, event_id: eventId, pixel: '002',
-            _fbp: readCookie('_fbp'), _fbc: readCookie('_fbc'),
-            event_source_url: location.href
-          })
-        });
-        if (!res.ok) throw new Error('bad status ' + res.status);
-        if (window.fbq) fbq('track', 'Lead', {}, { eventID: eventId });
-        form.style.display = 'none';
-        document.getElementById('formDone').style.display = 'block';
-      } catch (err) {
-        btn.disabled = false; btn.textContent = T[curLang].submit;
-        errEl.textContent = T[curLang].errFail;
-      }
-    });
+    // ---- sticky CTA：滚动露出 hero 之后再浮出，避免和主按钮重叠 ----
+    (function () {
+      var sticky = document.getElementById('stickyCta');
+      var hero = document.getElementById('tgLink');
+      if (!sticky || !hero || !('IntersectionObserver' in window)) return;
+      var io = new IntersectionObserver(function (entries) {
+        sticky.classList.toggle('show', !entries[0].isIntersecting);
+      }, { threshold: 0 });
+      io.observe(hero);
+    })();
+
+    // ---- 在线人数轻微跳动（氛围）----
+    (function () {
+      var el = document.getElementById('onlineNum');
+      if (!el) return;
+      var base = 1286;
+      setInterval(function () {
+        var n = base + Math.floor(Math.random() * 60) - 20;
+        el.textContent = n.toLocaleString('en-US');
+      }, 4000);
+    })();
 
     applyLang(detectLang());
   </script>
