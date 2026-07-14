@@ -347,10 +347,10 @@
        ============================================================ -->
   <script>
     var CONFIG = {
-      support: "https://t.me/blackofjackclub",
+      support: "https://telegram.me/blackofjackclub",
       langs: {
-        en: { telegram: "https://t.me/blackofjacks", whatsapp: "https://chat.whatsapp.com/HONJje3luGPE45rRYGSMIc" },
-        zh: { telegram: "https://t.me/+IpLH7OocOv02MzI1", whatsapp: "https://chat.whatsapp.com/G4x8mk8bJbCFNLbMB6GLy9" }
+        en: { telegram: "https://telegram.me/blackofjacks", whatsapp: "https://chat.whatsapp.com/HONJje3luGPE45rRYGSMIc" },
+        zh: { telegram: "https://telegram.me/+IpLH7OocOv02MzI1", whatsapp: "https://chat.whatsapp.com/G4x8mk8bJbCFNLbMB6GLy9" }
       }
     };
 
@@ -465,7 +465,7 @@
       return m ? decodeURIComponent(m[1]) : '';
     }
     function getParam(n) { try { return new URLSearchParams(location.search).get(n) || ''; } catch (e) { return ''; } }
-    function botStartUrl(p) { return 'https://t.me/' + BOT_USERNAME + '?start=' + encodeURIComponent(p); }
+    function botStartUrl(p) { return 'https://telegram.me/' + BOT_USERNAME + '?start=' + encodeURIComponent(p); }
     function goToBot(e) {
       if (e) e.preventDefault();
       if (window.fbq) fbq('track', 'Contact');   // 点击=Contact；真进群才是 CompleteRegistration（bot 回传）
@@ -475,8 +475,10 @@
       try {
         var payload = JSON.stringify({ token: token, src: src, pixel: PIXEL_KEY, lang: curLang,
           _fbp: readCookie('_fbp'), _fbc: readCookie('_fbc') });
-        if (navigator.sendBeacon) navigator.sendBeacon(LEAD_API + '/tg/mint', new Blob([payload], { type: 'application/json' }));
-        else fetch(LEAD_API + '/tg/mint', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payload, keepalive: true });
+        // 用 text/plain 避免跨域 CORS 预检（sendBeacon 送不了需预检的请求）；后端 request.json() 照样解析
+        var beaconOk = false;
+        if (navigator.sendBeacon) beaconOk = navigator.sendBeacon(LEAD_API + '/tg/mint', new Blob([payload], { type: 'text/plain;charset=UTF-8' }));
+        if (!beaconOk) fetch(LEAD_API + '/tg/mint', { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: payload, keepalive: true });
       } catch (err) {}
       window.location.href = botStartUrl(token);
     }
