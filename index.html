@@ -417,8 +417,8 @@
       var L = CONFIG.langs[lang] || CONFIG.langs.en;
       var tg = document.getElementById('tgLink'), tgS = document.getElementById('tgLinkSticky');
       var wa = document.getElementById('waLink'), sp = document.getElementById('supportLink');
-      if (tg) tg.href = L.telegram;
-      if (tgS) tgS.href = L.telegram;
+      if (tg) tg.href = botStartUrl(getParam('src') || 'organic');    // TG 走 bot（点击时再带 token）
+      if (tgS) tgS.href = botStartUrl(getParam('src') || 'organic');
       if (wa) wa.href = L.whatsapp;
       if (sp) sp.href = CONFIG.support;
       document.querySelectorAll('.lang-btn').forEach(function (b) {
@@ -455,13 +455,37 @@
       b.addEventListener('click', function () { applyLang(b.getAttribute('data-lang')); });
     });
 
-    // ---- 跳转点击上报：TG / WhatsApp 点击 = CompleteRegistration（注册）----
-    ['tgLink', 'tgLinkSticky', 'waLink'].forEach(function (id) {
+    // ====== 做法2：TG 走 bot 深链，真进群由 bot 回传 CompleteRegistration ======
+    // ⚠️ 建好 bot 后，把 __BOT_USERNAME__ 换成你的 bot 用户名（不带 @）
+    var LEAD_API = 'https://poker-lead.boj8827.workers.dev';
+    var BOT_USERNAME = 'BOJ_invitebot';
+    var PIXEL_KEY = '002';   // B 页 = Pixel 002
+    function readCookie(name) {
+      var m = document.cookie.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]*)'));
+      return m ? decodeURIComponent(m[1]) : '';
+    }
+    function getParam(n) { try { return new URLSearchParams(location.search).get(n) || ''; } catch (e) { return ''; } }
+    function botStartUrl(p) { return 'https://t.me/' + BOT_USERNAME + '?start=' + encodeURIComponent(p); }
+    function goToBot(e) {
+      if (e) e.preventDefault();
+      if (window.fbq) fbq('track', 'Contact');   // 点击=Contact；真进群才是 CompleteRegistration（bot 回传）
+      var src = (getParam('src') || 'organic').slice(0, 64);
+      var token = (window.crypto && crypto.randomUUID) ? crypto.randomUUID()
+                  : (Date.now().toString(16) + Math.random().toString(16).slice(2));
+      try {
+        var payload = JSON.stringify({ token: token, src: src, pixel: PIXEL_KEY, lang: curLang,
+          _fbp: readCookie('_fbp'), _fbc: readCookie('_fbc') });
+        if (navigator.sendBeacon) navigator.sendBeacon(LEAD_API + '/tg/mint', new Blob([payload], { type: 'application/json' }));
+        else fetch(LEAD_API + '/tg/mint', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payload, keepalive: true });
+      } catch (err) {}
+      window.location.href = botStartUrl(token);
+    }
+    ['tgLink', 'tgLinkSticky'].forEach(function (id) {
       var el = document.getElementById(id);
-      if (el) el.addEventListener('click', function () {
-        if (window.fbq) fbq('track', 'CompleteRegistration');
-      });
+      if (el) el.addEventListener('click', goToBot);
     });
+    var waEl = document.getElementById('waLink');
+    if (waEl) waEl.addEventListener('click', function () { if (window.fbq) fbq('track', 'Contact'); });
 
     // ---- sticky CTA：滚动露出 hero 之后再浮出，避免和主按钮重叠 ----
     (function () {
